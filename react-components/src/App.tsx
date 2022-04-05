@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
+import 'typeface-inter';
 import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
 import About from './components/About';
 import HomePage from './components/Home';
 import NotFound from './components/NotFound';
@@ -13,7 +14,7 @@ function App() {
         <Link to={'/'} className="header-link">
           Главная
         </Link>
-        <Link to={'/AboutUs'} className="header-link">
+        <Link to={'/AboutUs'} className="header-link" data-testid="21">
           О нас
         </Link>
       </header>
