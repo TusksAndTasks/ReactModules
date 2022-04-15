@@ -24,6 +24,7 @@ export default class FormCheckbox extends React.Component<{
         ref={this.props.reference}
         name="openProject"
         className="form-box__open-input"
+        data-testid="open-input"
       />
     );
   }

@@ -24,6 +24,7 @@ export default class FormSwitcher extends React.Component<{
           }}
           ref={this.props.reference}
           name="isCommercial"
+          data-testid="switcher"
         />
         <span className="slider"></span>
       </label>

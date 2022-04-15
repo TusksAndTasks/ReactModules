@@ -26,6 +26,7 @@ export default class FormDateInput extends React.Component<{
         ref={this.props.reference}
         name="date"
         className="form-box__date-input"
+        data-testid="date-input"
       />
     );
   }

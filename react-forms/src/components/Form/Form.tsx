@@ -313,7 +313,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
         <form onSubmit={(event) => event.preventDefault()} className="form-box">
           <div className="form-box__name">
             <FormInput changeHandler={this.handleChange} reference={this.referencePack.nameRef} />
-            <label htmlFor="name" className="form-box__name-label">
+            <label htmlFor="name" className="form-box__name-label" data-testid="name">
               {this.state.errorState.nameError}
             </label>
           </div>
@@ -322,7 +322,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
               changeHandler={this.handleChange}
               reference={this.referencePack.dateRef}
             />
-            <label htmlFor="date" className="form-box__date-label">
+            <label htmlFor="date" className="form-box__date-label" data-testid="date">
               {this.state.errorState.dateError}
             </label>
           </div>
@@ -331,7 +331,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
               changeHandler={this.handleChange}
               reference={this.referencePack.locationRef}
             />
-            <label htmlFor="location" className="form-box__location-label">
+            <label htmlFor="location" className="form-box__location-label" data-testid="location">
               {this.state.errorState.locationError}
             </label>
           </div>
@@ -341,7 +341,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
               changeHandler={this.handleCheck}
               reference={this.referencePack.openProjectRef}
             />
-            <label htmlFor="openProject" className="form-box__open-label">
+            <label htmlFor="openProject" className="form-box__open-label" data-testid="open">
               {this.state.errorState.openProjectError}
             </label>
           </div>
@@ -361,7 +361,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
               changeHandler={this.handleImage}
               reference={this.referencePack.fileRef}
             />
-            <label htmlFor="openProject" className="form-box__file-label">
+            <label htmlFor="file" className="form-box__file-label" data-testid="file">
               {this.state.errorState.fileError}
             </label>
           </div>
@@ -376,7 +376,7 @@ export default class Form extends React.Component<Record<string, unknown>, FormS
         {
           <div className="cards-box">
             {this.state.formsList.map((cardData, index) => (
-              <Minicard key={index} cardData={cardData} />
+              <Minicard key={index} cardData={cardData} data-testid={`card-${index}`} />
             ))}
           </div>
         }

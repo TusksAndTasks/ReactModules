@@ -23,6 +23,7 @@ export default class FormFileUpload extends React.Component<{
         ref={this.props.reference}
         name="file"
         className="form-box__file-input"
+        data-testid="file-input"
       />
     );
   }
