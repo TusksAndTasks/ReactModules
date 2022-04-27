@@ -1,7 +1,7 @@
 import React from 'react';
 import App from '../../App';
 import { MemoryRouter } from 'react-router';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('API test', () => {
@@ -64,16 +64,14 @@ describe('API test', () => {
 
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockImplementation((req) => {
-      if (req === 'https://rickandmortyapi.com/api/character/?name=Rick') {
+      console.log(req);
+      if (req === 'https:rickandmortyapi.com/api/character?name=Rick') {
+        //тут изначально были опечатки в запросе, которые пусть и не ломали апи, но баги иногда иогли происходить, причем крайне редко и крайне странные. пришлось изменить строку в коде и соответсвенно здесь
         return Promise.resolve(new Response(JSON.stringify(response), { status: 200 }));
       } else {
         return Promise.resolve(new Response(null, { status: 404 }));
       }
     });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   test('Test API-cards functional', async () => {
@@ -83,7 +81,10 @@ describe('API test', () => {
       </MemoryRouter>
     );
     const search = screen.getByPlaceholderText('поиск');
-    userEvent.type(search, 'Rick{enter}');
+    act(() => {
+      //из-за варнингов добавил act
+      userEvent.type(search, 'Rick{enter}');
+    });
 
     expect(screen.getByText('Loading')).toBeInTheDocument();
 
@@ -96,6 +97,7 @@ describe('API test', () => {
     userEvent.click(screen.getByTestId('69'));
 
     expect(screen.getByTestId('close')).toBeInTheDocument();
+    (search as HTMLInputElement).value = ''; //Ввиду нового функционала (теперь при маунте домашней страницы происходит поиск по значению из окна поиска), потребовалось отчистить поиск перед анумунтом
   });
 
   test('Test wrong request search', async () => {
@@ -105,7 +107,10 @@ describe('API test', () => {
       </MemoryRouter>
     );
     const search = screen.getByPlaceholderText('поиск');
-    userEvent.type(search, 'Morty{enter}');
+    act(() => {
+      //из-за варнингов добавил act
+      userEvent.type(search, 'Morty{enter}');
+    });
 
     expect(screen.getByText('Loading')).toBeInTheDocument();
 
