@@ -22,7 +22,7 @@ export default function Searchbar(props: ISearchProps) {
     async function getCardsData() {
       try {
         const response = await fetch(
-          `https:rickandmortyapi.com/api/character?name=${searchString}`
+          `https://rickandmortyapi.com/api/character?name=${searchString}`
         );
         if (response.ok) {
           return response;

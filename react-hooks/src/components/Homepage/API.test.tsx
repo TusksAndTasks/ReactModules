@@ -65,7 +65,7 @@ describe('API test', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockImplementation((req) => {
       console.log(req);
-      if (req === 'https:rickandmortyapi.com/api/character?name=Rick') {
+      if (req === 'https://rickandmortyapi.com/api/character?name=Rick') {
         //тут изначально были опечатки в запросе, которые пусть и не ломали апи, но баги иногда иогли происходить, причем крайне редко и крайне странные. пришлось изменить строку в коде и соответсвенно здесь
         return Promise.resolve(new Response(JSON.stringify(response), { status: 200 }));
       } else {
