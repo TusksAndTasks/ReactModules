@@ -1,35 +1,29 @@
-import React, { ChangeEvent } from 'react';
+import React, { useEffect } from 'react';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
+import { FormData } from '../Form';
 import './Select.scss';
 
-export default class FormSelect extends React.Component<{
-  changeHandler: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  reference: React.RefObject<HTMLSelectElement>;
-}> {
-  constructor(props: {
-    changeHandler: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-    reference: React.RefObject<HTMLSelectElement>;
-  }) {
-    super(props);
-  }
+export default function FormSelect(props: UseControllerProps<FormData>) {
+  const { field } = useController(props);
+  const { clearErrors, getValues } = useFormContext();
 
-  render() {
-    return (
-      <select
-        defaultValue=""
-        onChange={(event) => {
-          this.props.changeHandler(event);
-          (this.props.reference.current as HTMLSelectElement).classList.remove('validationError');
-        }}
-        ref={this.props.reference}
-        name="location"
-        className="form-box__location-input"
-      >
-        <option value="">Выберите регион</option>
-        <option value="RO">Ростовская область</option>
-        <option value="Rostov">Ростов</option>
-        <option value="Russia">Другой регион РФ</option>
-        <option value="Online">Онлайн</option>
-      </select>
-    );
-  }
+  useEffect(() => {
+    clearErrors(field.name);
+  }, [getValues(field.name)]);
+
+  return (
+    <select
+      className="form-box__location-input"
+      name={field.name}
+      onChange={field.onChange}
+      value={field.value}
+      data-testid={'select-input'}
+    >
+      <option value="">Choose origin</option>
+      <option value="Earth">Earth</option>
+      <option value="Moon">Moon</option>
+      <option value="Andromeda">Andromeda</option>
+      <option value="Hell">Hell</option>
+    </select>
+  );
 }

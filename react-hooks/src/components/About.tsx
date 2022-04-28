@@ -7,9 +7,9 @@ export default class About extends React.Component {
         <div className="About-box">
           <img src="images/Bear.jpg" className="About-avatar" />
           <div className="About-textfield">
-            <h2>Это я</h2>
+            <h2>This is me!</h2>
             <p>
-              А это мой <a href="https://github.com/TusksAndTasks">гитхаб</a>
+              And this is my <a href="https://github.com/TusksAndTasks">github</a>
             </p>
           </div>
         </div>

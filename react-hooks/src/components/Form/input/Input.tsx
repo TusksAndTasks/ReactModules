@@ -1,30 +1,24 @@
-import React, { ChangeEvent } from 'react';
+import React, { useEffect } from 'react';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
+import { FormData } from '../Form';
 import './input.scss';
 
-export default class FormInput extends React.Component<{
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-  reference: React.RefObject<HTMLInputElement>;
-}> {
-  constructor(props: {
-    changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-    reference: React.RefObject<HTMLInputElement>;
-  }) {
-    super(props);
-  }
+export default function FormInput(props: UseControllerProps<FormData>) {
+  const { clearErrors, getValues } = useFormContext();
+  const { field } = useController(props);
 
-  render() {
-    return (
-      <input
-        type="input"
-        placeholder="Введите Ваши имя и фамилию"
-        onChange={(event) => {
-          this.props.changeHandler(event);
-          (this.props.reference.current as HTMLInputElement).classList.remove('validationError');
-        }}
-        ref={this.props.reference}
-        name="name"
-        className="form-box__name-input"
-      />
-    );
-  }
+  useEffect(() => {
+    clearErrors(field.name);
+  }, [getValues(field.name)]);
+
+  return (
+    <input
+      type="input"
+      placeholder="Enter character's name"
+      name={props.name}
+      className="form-box__name-input"
+      value={field.value}
+      onChange={field.onChange}
+    />
+  );
 }

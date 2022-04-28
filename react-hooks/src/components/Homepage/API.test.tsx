@@ -80,7 +80,7 @@ describe('API test', () => {
         <App />
       </MemoryRouter>
     );
-    const search = screen.getByPlaceholderText('поиск');
+    const search = screen.getByPlaceholderText('Search');
     act(() => {
       //из-за варнингов добавил act
       userEvent.type(search, 'Rick{enter}');
@@ -106,7 +106,7 @@ describe('API test', () => {
         <App />
       </MemoryRouter>
     );
-    const search = screen.getByPlaceholderText('поиск');
+    const search = screen.getByPlaceholderText('Search');
     act(() => {
       //из-за варнингов добавил act
       userEvent.type(search, 'Morty{enter}');

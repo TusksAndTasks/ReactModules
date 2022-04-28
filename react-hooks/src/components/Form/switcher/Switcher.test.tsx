@@ -13,8 +13,6 @@ describe('Test switcher element', () => {
     );
     const input = screen.getByTestId('switcher') as HTMLInputElement;
     userEvent.click(input);
-    setTimeout(() => {
-      expect(input.checked).toEqual(true);
-    }, 0);
+    expect(input.checked).toEqual(true);
   });
 });

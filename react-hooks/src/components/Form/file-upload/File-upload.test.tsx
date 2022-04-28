@@ -5,29 +5,26 @@ import { MemoryRouter } from 'react-router';
 import Form from '../Form';
 
 describe('Test file-uploader element', () => {
-  test('Test empty input', () => {
+  test('Test empty input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const label = screen.getByTestId('file');
-    const submit = screen.getByText('Создать');
+    const submit = screen.getByTestId('submit-btn');
 
     userEvent.click(submit);
-    setTimeout(() => {
-      expect(label.textContent).toEqual('Вы должны добавить изображение!');
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.getByTestId('file').textContent).toEqual('You must set a picture!');
   });
 
-  test('Test image input', () => {
+  test('Test image input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const label = screen.getByTestId('file');
-    const submit = screen.getByText('Создать');
+    const submit = screen.getByTestId('submit-btn');
     const uploader = screen.getByTestId('file-input') as HTMLInputElement;
     const file = new File(['img'], 'img.png', { type: 'image/png' });
 
@@ -39,8 +36,7 @@ describe('Test file-uploader element', () => {
 
     userEvent.upload(uploader, file);
     userEvent.click(submit);
-    setTimeout(() => {
-      expect(label.textContent).toEqual('');
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByTestId('file')).toBeNull();
   });
 });

@@ -33,14 +33,14 @@ describe('Searchbar tests', () => {
 
   test('Input test', () => {
     render(<HomePage />);
-    const search = screen.getByPlaceholderText('поиск') as HTMLInputElement;
+    const search = screen.getByPlaceholderText('Search') as HTMLInputElement;
     fireEvent.change(search, { target: { value: 'test-string' } });
     expect(search.value).toEqual('test-string');
   });
 
   test('Input save LocalStorage test', () => {
     const { unmount } = render(<HomePage />);
-    const search = screen.getByPlaceholderText('поиск') as HTMLInputElement;
+    const search = screen.getByPlaceholderText('Search') as HTMLInputElement;
     fireEvent.change(search, { target: { value: 'test-string' } });
     unmount();
     expect(mockLocalStorage.getItem('search-bar')).toEqual('test-string');
@@ -50,7 +50,7 @@ describe('Searchbar tests', () => {
   test('Input value from LocalStorage', () => {
     mockLocalStorage.setItem('search-bar', 'test-string');
     render(<HomePage />);
-    const search = screen.getByPlaceholderText('поиск') as HTMLInputElement;
+    const search = screen.getByPlaceholderText('Search') as HTMLInputElement;
     expect(search.value).toEqual('test-string');
   });
 });

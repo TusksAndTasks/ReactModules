@@ -52,7 +52,7 @@ export default function Searchbar(props: ISearchProps) {
       <input
         className="searchbar"
         type="search"
-        placeholder="поиск"
+        placeholder="Search"
         autoComplete="off"
         defaultValue={localData}
         ref={inputRef}

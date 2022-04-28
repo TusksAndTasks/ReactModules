@@ -5,33 +5,30 @@ import { MemoryRouter } from 'react-router';
 import Form from '../Form';
 
 describe('Test date-input element', () => {
-  test('Test empty date input', () => {
+  test('Test empty date input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const submit = screen.getByText('Создать');
+    const submit = screen.getByTestId('submit-btn');
     userEvent.click(submit);
-    setTimeout(() => {
-      expect(screen.getByText('Вы должны указать дату проведения!')).toBeInTheDocument;
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.getByText('You must set an origin location!')).toBeInTheDocument();
   });
 
-  test('Test correct date input', () => {
+  test('Test correct date input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
     const input = screen.getByTestId('date-input') as HTMLInputElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('date');
+    const submit = screen.getByTestId('submit-btn');
     fireEvent.change(input, { target: { value: '2022-04-15' } });
     userEvent.click(submit);
     expect(input.value).toEqual('2022-04-15');
-    setTimeout(() => {
-      expect(label.textContent).toEqual('');
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByTestId('date')).toBeNull();
   });
 });

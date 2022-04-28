@@ -7,8 +7,7 @@ export default class NotFound extends React.Component {
       <div className="Notfound-container">
         <div className="Notfound-box">
           <h2>
-            Упс! Данной страницы не существует. Пожалуйста, вернитесь на{' '}
-            <Link to="/">главную страницу</Link>
+            Oops! Page not found! Please, return to <Link to="/">main page</Link>
           </h2>
         </div>
       </div>

@@ -1,27 +1,22 @@
 import React from 'react';
-import { FormData, Loc } from '../Form-interfaces';
+import { FormData } from '../Form';
 import './Minicard.scss';
 
-export default class Minicard extends React.Component<{
-  cardData: FormData;
-}> {
-  render() {
-    return (
-      <div className="minicard">
-        <img src={this.props.cardData.file} />
-        <p>{this.props.cardData.name}</p>
-        <p>{this.props.cardData.date.split('-').reverse().join('.')}</p>
-        <p>{(locations as Loc)[this.props.cardData.location]}</p>
-        <p>Тип: {this.props.cardData.isCommercial ? 'Коммерческий' : 'Некоммерческий'}</p>
-        <div>Проект открыт!</div>
-      </div>
-    );
-  }
+export default function Minicard(props: miniCardProps) {
+  return (
+    <div className="minicard" data-testid={props.testid}>
+      <img src={props.cardData.file} />
+      <p>Name: {props.cardData.name}</p>
+      <p>Birthday: {props.cardData.date.split('-').reverse().join('.')}</p>
+      <p>Origin: {props.cardData.location}</p>
+      <p>Gender: {props.cardData.gender}</p>
+      <div>Character created!</div>
+    </div>
+  );
 }
 
-const locations = {
-  RO: 'Ростовская область',
-  Rostov: 'Ростов-на-Дону',
-  Russia: 'Россия',
-  Online: 'Онлайн',
-};
+interface miniCardProps {
+  key: string;
+  cardData: FormData;
+  testid: string;
+}

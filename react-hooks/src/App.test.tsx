@@ -11,7 +11,7 @@ describe('Route and component tests', () => {
         <App />
       </MemoryRouter>
     );
-    const home = screen.getByPlaceholderText('поиск');
+    const home = screen.getByPlaceholderText('Search');
     expect(home).toBeInTheDocument();
   });
 
@@ -21,9 +21,9 @@ describe('Route and component tests', () => {
         <App />
       </MemoryRouter>
     );
-    const btn = screen.getByText(/О нас/i);
+    const btn = screen.getByText(/About/i);
     fireEvent.click(btn);
-    const about = screen.getByText(/гитхаб/i);
+    const about = screen.getByText(/github/i);
     expect(about).toBeInTheDocument();
   });
 
@@ -34,13 +34,13 @@ describe('Route and component tests', () => {
       </MemoryRouter>
     );
     const btnAbout = screen.getByTestId('21');
-    const btnHome = screen.getByText(/Главная/i);
+    const btnHome = screen.getByText(/Home/i);
     userEvent.click(btnHome);
-    expect(screen.getByPlaceholderText('поиск')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
     userEvent.click(btnAbout);
-    expect(screen.getByText(/гитхаб/i)).toBeInTheDocument();
+    expect(screen.getByText(/github/i)).toBeInTheDocument();
     userEvent.click(btnHome);
-    expect(screen.getByPlaceholderText('поиск')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
   });
 
   test('Test page not found', () => {
@@ -49,6 +49,6 @@ describe('Route and component tests', () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByText(/Упс/i)).toBeInTheDocument();
+    expect(screen.getByText(/Oops/i)).toBeInTheDocument();
   });
 });

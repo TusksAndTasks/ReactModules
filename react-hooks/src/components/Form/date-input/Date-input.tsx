@@ -1,33 +1,27 @@
-import React, { ChangeEvent } from 'react';
+import React, { useEffect } from 'react';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
+import { FormData } from '../Form';
 import './Date.scss';
 
-export default class FormDateInput extends React.Component<{
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-  reference: React.RefObject<HTMLInputElement>;
-}> {
-  constructor(props: {
-    changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-    reference: React.RefObject<HTMLInputElement>;
-  }) {
-    super(props);
-  }
+export default function FormDateInput(props: UseControllerProps<FormData>) {
+  const { field } = useController(props);
+  const { clearErrors, getValues } = useFormContext();
 
-  render() {
-    return (
-      <input
-        type="date"
-        placeholder="Введите дату мероприятия"
-        min="2022-01-01"
-        max="2052-01-01"
-        onChange={(event) => {
-          this.props.changeHandler(event);
-          (this.props.reference.current as HTMLInputElement).classList.remove('validationError');
-        }}
-        ref={this.props.reference}
-        name="date"
-        className="form-box__date-input"
-        data-testid="date-input"
-      />
-    );
-  }
+  useEffect(() => {
+    clearErrors(field.name);
+  }, [getValues(field.name)]);
+
+  return (
+    <input
+      type="date"
+      placeholder="Enter date of birth"
+      min="2022-01-01"
+      max="2052-01-01"
+      onChange={field.onChange}
+      value={field.value}
+      name={props.name}
+      className="form-box__date-input"
+      data-testid="date-input"
+    />
+  );
 }

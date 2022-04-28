@@ -5,37 +5,33 @@ import { MemoryRouter } from 'react-router';
 import Form from '../Form';
 
 describe('Test select element', () => {
-  test('Test correct select input', () => {
+  test('Test correct select input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const input = screen.getByText('Выберите регион') as HTMLSelectElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('location');
-    const region = screen.getByText('Ростов');
-    userEvent.click(region);
+    const input = screen.getByTestId('select-input') as HTMLSelectElement;
+    const submit = screen.getByTestId('submit-btn');
+    userEvent.selectOptions(input, 'Hell');
     userEvent.click(submit);
-    setTimeout(() => {
-      expect(input.value).toEqual('Rostov');
-      expect(label.textContent).toEqual('');
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByTestId('location')).toBeNull();
   });
 
-  test('Test empty select input', () => {
+  test('Test empty select input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const input = screen.getByText('Выберите регион') as HTMLSelectElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('location');
+    const input = screen.getByTestId('select-input') as HTMLSelectElement;
+    const submit = screen.getByTestId('submit-btn');
     userEvent.click(submit);
-    setTimeout(() => {
-      expect(input.value).toEqual('');
-      expect(label.textContent).toEqual('');
-    }, 0);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(input.value).toEqual('');
+    expect(screen.queryByTestId('location')?.textContent).toEqual(
+      'You must set an origin location!'
+    );
   });
 });

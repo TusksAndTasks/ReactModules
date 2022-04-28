@@ -5,48 +5,49 @@ import { MemoryRouter } from 'react-router';
 import Form from '../Form';
 
 describe('Test input element', () => {
-  test('Test correct name input', () => {
+  test('Test correct name input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const input = screen.getByPlaceholderText('Введите Ваши имя и фамилию') as HTMLInputElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('name');
+    const input = screen.getByPlaceholderText("Enter character's name") as HTMLInputElement;
+    const submit = screen.getByTestId('submit-btn');
     fireEvent.change(input, { target: { value: 'Имя Фамилия' } });
     userEvent.click(submit);
     expect(input.value).toEqual('Имя Фамилия');
-    expect(label.textContent).toEqual('');
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByTestId('name')).toBeNull();
   });
 
-  test('Test too little information input', () => {
+  test('Test too little information input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const input = screen.getByPlaceholderText('Введите Ваши имя и фамилию') as HTMLInputElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('name');
+    const input = screen.getByPlaceholderText("Enter character's name") as HTMLInputElement;
+    const submit = screen.getByTestId('submit-btn');
     userEvent.click(submit);
-    expect(label.textContent).toEqual('Вы должны указать имя и фамилию!');
-    fireEvent.change(input, { target: { value: 'Имя' } });
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.getByTestId('name').textContent).toEqual('You must choose a name!');
+    fireEvent.change(input, { target: { value: '' } });
     userEvent.click(submit);
-    expect(label.textContent).toEqual('Вы должны указать имя и фамилию!');
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.getByTestId('name').textContent).toEqual('You must choose a name!');
   });
 
-  test('Test too much information input', () => {
+  test('Test too much information input', async () => {
     render(
       <MemoryRouter>
         <Form />
       </MemoryRouter>
     );
-    const input = screen.getByPlaceholderText('Введите Ваши имя и фамилию') as HTMLInputElement;
-    const submit = screen.getByText('Создать');
-    const label = screen.getByTestId('name');
+    const input = screen.getByPlaceholderText("Enter character's name") as HTMLInputElement;
+    const submit = screen.getByTestId('submit-btn');
     fireEvent.change(input, { target: { value: 'Имя Фамилия Отчество' } });
     userEvent.click(submit);
-    expect(label.textContent).toEqual('Вы указали слишком много слов!');
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.getByTestId('name').textContent).toEqual("You're using too many words!");
   });
 });

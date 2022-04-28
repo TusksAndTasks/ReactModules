@@ -1,33 +1,33 @@
-import React, { ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
+import { FormData } from '../Form';
 import './Switcher.scss';
 
-export default class FormSwitcher extends React.Component<{
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-  reference: React.RefObject<HTMLInputElement>;
-}> {
-  constructor(props: {
-    changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-    reference: React.RefObject<HTMLInputElement>;
-  }) {
-    super(props);
-  }
+export default function FormSwitcher(props: UseControllerProps<FormData>) {
+  const { field } = useController(props);
+  const { clearErrors, getValues } = useFormContext();
 
-  render() {
-    return (
-      <label className="switcher">
-        <input
-          className="switch"
-          type="checkbox"
-          defaultChecked={false}
-          onChange={(event) => {
-            this.props.changeHandler(event);
-          }}
-          ref={this.props.reference}
-          name="isCommercial"
-          data-testid="switcher"
-        />
-        <span className="slider"></span>
-      </label>
-    );
-  }
+  const [switchValue, setSwitchValue] = useState('Male');
+
+  useEffect(() => {
+    clearErrors(field.name);
+  }, [getValues(field.name)]);
+
+  return (
+    <label className="switcher">
+      <input
+        className="switch"
+        type="checkbox"
+        onChange={() => {
+          const gender = switchValue === 'Male' ? 'Female' : 'Male';
+          field.onChange(gender);
+          setSwitchValue(field.value);
+        }}
+        checked={field.value === 'Female'}
+        name={field.name}
+        data-testid="switcher"
+      />
+      <span className="slider"></span>
+    </label>
+  );
 }

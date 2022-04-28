@@ -1,31 +1,31 @@
-import React, { ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useController, UseControllerProps, useFormContext } from 'react-hook-form';
+import { FormData } from '../Form';
 import './Checkbox.scss';
 
-export default class FormCheckbox extends React.Component<{
-  changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-  reference: React.RefObject<HTMLInputElement>;
-}> {
-  constructor(props: {
-    changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
-    reference: React.RefObject<HTMLInputElement>;
-  }) {
-    super(props);
-  }
+export default function FormCheckbox(props: UseControllerProps<FormData>) {
+  const { field } = useController(props);
+  const { clearErrors, getValues } = useFormContext();
 
-  render() {
-    return (
-      <input
-        type="checkbox"
-        defaultChecked={false}
-        onChange={(event) => {
-          this.props.changeHandler(event);
-          (this.props.reference.current as HTMLInputElement).classList.remove('validationError');
-        }}
-        ref={this.props.reference}
-        name="openProject"
-        className="form-box__open-input"
-        data-testid="open-input"
-      />
-    );
-  }
+  const [checkBoxValue, setCheckBoxValue] = useState('');
+
+  useEffect(() => {
+    clearErrors(field.name);
+  }, [getValues(field.name)]);
+
+  return (
+    <input
+      type="checkbox"
+      onChange={() => {
+        const value = checkBoxValue ? '' : 'Checked';
+        field.onChange(value);
+        setCheckBoxValue(field.value);
+      }}
+      name={field.name}
+      value={checkBoxValue}
+      checked={field.value.length != 0}
+      className="form-box__open-input"
+      data-testid="open-input"
+    />
+  );
 }

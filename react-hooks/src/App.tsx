@@ -12,13 +12,13 @@ function App() {
     <div className="App">
       <header className="header">
         <Link to={'/'} className="header-link">
-          Главная
+          Home
         </Link>
         <Link to={'/AboutUs'} className="header-link" data-testid="21">
-          О нас
+          About
         </Link>
         <Link to={'/Forms'} className="header-link">
-          Создать карточку
+          Create character
         </Link>
       </header>
       <Routes>
