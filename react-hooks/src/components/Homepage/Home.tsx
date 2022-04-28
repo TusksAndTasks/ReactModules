@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <div className="Home-container">
       <div className="Home-box">
-        <Searchbar stateUpdater={updateCardsData} stateClear={clearCardsData} />
+        <Searchbar updateCardsData={updateCardsData} clearState={clearCardsData} />
         <div ref={containerRef}></div>
         <Cards
           cards={cards}

@@ -18,28 +18,26 @@ export default function Searchbar(props: ISearchProps) {
   }, [localData]);
 
   useEffect(() => {
-    const { stateUpdater, stateClear } = props;
-    async function makeAPIcall() {
+    const { updateCardsData, clearState } = props;
+    async function getCardsData() {
       try {
         const response = await fetch(
           `https:rickandmortyapi.com/api/character?name=${searchString}`
         );
         if (response.ok) {
           return response;
-        } else {
-          return undefined;
         }
       } catch (err) {
         console.log(err);
       }
     }
 
-    makeAPIcall()
+    getCardsData()
       .then((res) => res?.json())
-      .then((data: IApiResponse | undefined) => stateUpdater(data?.results));
+      .then((data: IApiResponse | undefined) => updateCardsData(data?.results));
 
-    return stateClear;
-  }, [searchString]); // Тут он просит передать в массив props-функции. Это вызывает бесконечный луп, я полагаю, ввиду изменения stateUpdater`a и stateClear`a на каждом вызове.Без понятия, как этот варнинг исправить;
+    return clearState;
+  }, [searchString]); // Тут он просит передать в массив props-функции. Это вызывает бесконечный луп, я полагаю, ввиду изменения updateCardsData`a и stateClear`a на каждом вызове.Без понятия, как этот варнинг исправить;
 
   function handleSearchInput(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.code === 'Enter') {
@@ -94,6 +92,6 @@ export interface IApiCardData {
 }
 
 interface ISearchProps {
-  stateUpdater: (data: Array<IApiCardData> | undefined) => void;
-  stateClear: () => void;
+  updateCardsData: (data: Array<IApiCardData> | undefined) => void;
+  clearState: () => void;
 }

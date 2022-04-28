@@ -34,8 +34,8 @@ html{
     font-family: Inter;
     font-size: 20px;
 
-
     &__closeBtn{
+        all: unset;
         display: inline-block;
         position: absolute;
         top: 3px;
@@ -46,8 +46,6 @@ html{
         background-color: $darkRed;
         border-radius: 2px;
        
-
-
             &:hover {
                 opacity: 1;
             }
@@ -96,17 +94,17 @@ html{
         }
     }
 
-    &__Alive, &__Dead, &__unknown{
+    &__alive, &__dead, &__unknown{
         width: 100%;
         color: white;
         text-align: center;
     }
 
-    &__Alive{
+    &__alive{
         background-color: $green;
     }
 
-    &__Dead{
+    &__dead{
         background-color: $red;
     }
 
@@ -153,17 +151,14 @@ html{
         color: white;
     }
 
-
-    &_Alive:hover{
+    &_alive:hover{
         background-color: $green;
     }
     
-    
-    &_Dead:hover{
+    &_dead:hover{
         background-color: $red;
     }
 
-    
     &_unknown:hover{
         background-color: $blue;
     }

@@ -4,7 +4,7 @@ import { IApiCardData } from './Searchbar';
 export default function Card(props: ICardProps) {
   return (
     <div
-      className={`card card_${props.item.status}`}
+      className={`card card_${props.item.status.toLowerCase()}`}
       data-testid={props.item.id}
       title="card"
       onClick={() => {
@@ -12,7 +12,7 @@ export default function Card(props: ICardProps) {
         (props.reference.current as HTMLElement).classList.remove('hidden');
       }}
     >
-      <img src={props.item.image} />
+      <img src={props.item.image} alt={`character portrait ${props.item.name}`} />
       <h3 data-testid="card" className="card__name">
         {props.item.name}
       </h3>

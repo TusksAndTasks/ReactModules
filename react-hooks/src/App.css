@@ -84,29 +84,6 @@
   background-position: 10px center;
 }
 
-/* .card{
-  width: 320px;
-  height: 350px;
-  display: flex;
-  flex-flow: column;
-  padding: 10px;
-  align-items: center;
-  background-color: rgb(247, 231, 231);
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
-  transition: 2s;
-}
-
-.card:hover{
-  cursor: pointer;
-    width: 400px;
-    height: 400px;
-}
-
-.card > img {
-  width: 320px;
-  height: 172px;
-} */
-
 .card-description {
   overflow-y: scroll;
   height: 20%;
