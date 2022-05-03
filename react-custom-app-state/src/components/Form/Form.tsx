@@ -8,7 +8,8 @@ import FormSelect from './select/Select';
 import FormSwitcher from './switcher/Switcher';
 import './Form.scss';
 import { SubmitHandler, FormProvider, UseFormReturn } from 'react-hook-form';
-import { FormDataContext, IContextList, ListDataContext } from '../../App';
+import { IContextList } from '../../State-manager';
+import { FormDataContext, ListDataContext } from '../../App';
 
 export default function Form() {
   const formMethods = useContext(FormDataContext) as UseFormReturn<FormData>;

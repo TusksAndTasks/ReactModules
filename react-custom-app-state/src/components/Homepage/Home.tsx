@@ -1,23 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useContext } from 'react';
+import { SearchDataContext } from '../../App';
+import { IContextSearch, SearchEnum } from '../../State-manager';
 import Cards from './Cards';
 import Searchbar, { IApiCardData } from './Searchbar';
+import SearchParam from './SearchParam';
 
 export default function HomePage() {
-  const [cards, setCards] = useState([] as Array<IApiCardData>);
-  const [isLoaded, setIsLoaded] = useState(true);
-  const [currentCard, setCurrentCard] = useState(0);
+  const { dispatchSearchState, searchState } = useContext(SearchDataContext) as IContextSearch;
   const containerRef = useRef(null) as React.RefObject<HTMLInputElement>;
 
   function updateCardsData(data: Array<IApiCardData> | undefined) {
-    data ? setCards(data) : setCards([]);
-    setTimeout(() => setIsLoaded(true), 1000);
+    dispatchSearchState({
+      type: SearchEnum.DISPLAY,
+      payload: data as Array<IApiCardData>,
+    });
   }
   function clearCardsData() {
-    setCards([]);
-    setIsLoaded(false);
-  }
-  function changeCurrentCard(id: number) {
-    setCurrentCard(id);
+    dispatchSearchState({ type: SearchEnum.SEARCHING });
   }
 
   return (
@@ -25,11 +24,10 @@ export default function HomePage() {
       <div className="Home-box">
         <Searchbar updateCardsData={updateCardsData} clearState={clearCardsData} />
         <div ref={containerRef}></div>
+        <SearchParam />
         <Cards
-          cards={cards}
-          isLoaded={isLoaded}
-          currentCard={currentCard}
-          cardChanger={changeCurrentCard}
+          cards={searchState.cards}
+          isLoaded={searchState.isLoaded}
           containerRef={containerRef}
         />
       </div>

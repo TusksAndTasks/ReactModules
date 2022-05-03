@@ -34,6 +34,35 @@ html{
     font-family: Inter;
     font-size: 20px;
 
+    &-header{
+        height: 90px;
+        background-color: $red;
+        text-align: center;
+        position: relative;
+        padding-top: 10px;
+
+        &-link{
+            position: absolute;
+            left: 10px;
+            height: 20px;
+            text-decoration: none;
+            font-family: Inter, sans-serif;
+            font-weight: 700;
+            font-size: 50px;
+            color: rgb(7, 7, 7);
+        }
+
+        &-text{
+            display: block;
+            height: 20px;
+            text-decoration: none;
+            font-family: Inter, sans-serif;
+            font-weight: 700;
+            font-size: 50px;
+            color: white;
+        }
+    }
+
     &__closeBtn{
         all: unset;
         display: inline-block;
@@ -234,3 +263,36 @@ html{
     }
   }
   
+  .params{
+    height: 100px; 
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;  
+
+    &-filter{
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    &-pagination{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        >select{
+            margin: 5px 30px;
+            width: 40%;
+            background-color: $red;
+            color: white;
+        }
+
+        >div{
+            display: inline;
+            font-size: 14px;
+            font-weight: 500;
+            width: 20%;
+        }
+    }
+  }

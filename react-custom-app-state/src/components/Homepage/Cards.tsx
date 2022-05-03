@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import Card from './Card';
-import FullCard from './FullCard';
 import { IApiCardData } from './Searchbar';
 
 export default function Cards(props: ICardsProps) {
@@ -10,13 +9,7 @@ export default function Cards(props: ICardsProps) {
     <div className="cards">
       {props.isLoaded ? (
         props.cards.map((item, index) => (
-          <Card
-            key={item.id}
-            item={item}
-            cardChanger={props.cardChanger}
-            index={index}
-            reference={fullCardRef}
-          />
+          <Card key={item.id} item={item} index={index} reference={fullCardRef} />
         ))
       ) : (
         <div className="loading-wrapper">
@@ -29,16 +22,7 @@ export default function Cards(props: ICardsProps) {
           </div>
         </div>
       )}
-      {props.cards.length > 0 ? (
-        <FullCard
-          cardsData={props.cards}
-          currentCard={props.currentCard}
-          reference={fullCardRef}
-          containerRef={props.containerRef}
-        />
-      ) : (
-        props.isLoaded && <div>No results found</div>
-      )}
+      {props.cards.length === 0 && props.isLoaded && <div>No results found</div>}
     </div>
   );
 }
@@ -46,7 +30,5 @@ export default function Cards(props: ICardsProps) {
 export interface ICardsProps {
   cards: Array<IApiCardData>;
   isLoaded: boolean;
-  currentCard: number;
   containerRef: React.RefObject<HTMLInputElement>;
-  cardChanger: (id: number) => void;
 }

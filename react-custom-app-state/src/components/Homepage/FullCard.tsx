@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IApiCardData } from './Searchbar';
 import './ApiCards.scss';
 import ReactDOM from 'react-dom';
+import { IContextSearch } from '../../State-manager';
+import { Link } from 'react-router-dom';
+import { SearchDataContext, HeaderDataContext } from '../../App';
 
-export default function FullCard(props: IFullCardProps) {
-  const defaultIndex = 0;
-  const currentCard = props.currentCard
-    ? (props.cardsData.find((item) => item.id === props.currentCard) as IApiCardData)
-    : props.cardsData[defaultIndex];
-  const container = props.containerRef.current as HTMLDivElement;
-  function closeFullCard(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const target = e.target as HTMLElement;
-    if (
-      target.classList.contains('fullCard__closeBtn') ||
-      target.classList.contains('card-overlay')
-    ) {
-      (props.reference.current as HTMLElement).classList.add('hidden');
-    }
-  }
+export default function FullCard() {
+  const { dispatchSearchState, searchState } = useContext(SearchDataContext) as IContextSearch;
+  const header = useContext(HeaderDataContext) as React.RefObject<HTMLElement>;
 
-  return ReactDOM.createPortal(
-    <div className="hidden card-overlay" ref={props.reference} onClick={closeFullCard}>
+  const currentCard = searchState.cards.find(
+    (item) => item.id === searchState.currentID
+  ) as IApiCardData;
+
+  return (
+    <div>
+      <div className="fullCard-header">
+        <Link
+          to={'/'}
+          className="fullCard-header-link"
+          onClick={() => header.current?.classList.remove('hidden')}
+        >
+          Back
+        </Link>
+        <div className="fullCard-header-text">Current card view - {currentCard.name}</div>
+      </div>
       <div className="fullCard">
-        <button className="fullCard__closeBtn" data-testid="close"></button>
         <img src={currentCard.image} alt={`${currentCard.name}`} />
         <div className="fullCard__name">{currentCard.name}</div>
         <div>Gender: {currentCard.gender}</div>
@@ -40,14 +44,6 @@ export default function FullCard(props: IFullCardProps) {
         {currentCard.type && <div>Type: {currentCard.type}</div>}
         <div className={`fullCard__${currentCard.status.toLowerCase()}`}>{currentCard.status}</div>
       </div>
-    </div>,
-    container
+    </div>
   );
-}
-
-interface IFullCardProps {
-  cardsData: Array<IApiCardData>;
-  currentCard: number;
-  reference: React.RefObject<HTMLInputElement>;
-  containerRef: React.RefObject<HTMLInputElement>;
 }

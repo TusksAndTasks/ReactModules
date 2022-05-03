@@ -1,31 +1,97 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { SearchParamDataContext } from '../../App';
+import { IContextSearchParam, SearchParamEnum } from '../../State-manager';
 
 export default function Searchbar(props: ISearchProps) {
   const inputRef = React.useRef(null) as React.RefObject<HTMLInputElement>;
-
-  const [localData, setLocalData] = useState('');
-  const [searchString, setSearchString] = useState('');
+  const { dispatchSearchParamState, searchParamState } = useContext(
+    SearchParamDataContext
+  ) as IContextSearchParam;
 
   useEffect(() => {
     const search = inputRef.current as HTMLInputElement;
-    if (localStorage.getItem('search-bar')) {
-      setLocalData(localStorage.getItem('search-bar') as string);
-      setSearchString(localData);
-    }
     return () => {
       localStorage.setItem('search-bar', search.value);
     };
-  }, [localData]);
+  }, []);
 
   useEffect(() => {
     const { updateCardsData, clearState } = props;
+
+    function setPages(data: IApiResponse | undefined) {
+      switch (searchParamState.displayedCards) {
+        case 10:
+          dispatchSearchParamState({
+            type: SearchParamEnum.UPDATEPAGES,
+            pageCount: (data?.info.pages as number) * 2,
+          });
+          return;
+        case 20:
+          dispatchSearchParamState({
+            type: SearchParamEnum.UPDATEPAGES,
+            pageCount: data?.info.pages,
+          });
+          return;
+        case 40:
+          dispatchSearchParamState({
+            type: SearchParamEnum.UPDATEPAGES,
+            pageCount: Math.floor((data?.info.pages as number) / 2),
+          });
+          return;
+      }
+    }
+
+    function setCardsData(data: IApiResponse | undefined) {
+      if (searchParamState.displayedCards === 10) {
+        return (searchParamState.shownCurrentPage as number) % 2 === 0
+          ? data?.results.slice(10)
+          : data?.results.slice(0, 10);
+      } else if (searchParamState.displayedCards === 20) {
+        return data?.results;
+      } else if (searchParamState.displayedCards === 40) {
+        return fetch(
+          `https://rickandmortyapi.com/api/character?name=${searchParamState.searchString}&status=${searchParamState.filterString}&page=${searchParamState.shownCurrentPage}`
+        )
+          .then((res) => {
+            if (!res.ok) {
+              dispatchSearchParamState({
+                type: SearchParamEnum.UPDATEPAGES,
+                pageCount: 0,
+              });
+              dispatchSearchParamState({
+                type: SearchParamEnum.CHANGEPAGE,
+                currentPage: 1,
+                shownCurrentPage: 2,
+              });
+              throw new Error();
+            } else {
+              return res.json();
+            }
+          })
+          .then((res) => {
+            return (data?.results as Array<IApiCardData>).concat(res.results);
+          })
+          .catch((err) => data?.results);
+      }
+    }
+
     async function getCardsData() {
       try {
         const response = await fetch(
-          `https://rickandmortyapi.com/api/character?name=${searchString}`
+          `https://rickandmortyapi.com/api/character?name=${searchParamState.searchString}&status=${searchParamState.filterString}&page=${searchParamState.currentPage}`
         );
         if (response.ok) {
           return response;
+        } else {
+          dispatchSearchParamState({
+            type: SearchParamEnum.UPDATEPAGES,
+            pageCount: 0,
+          });
+          dispatchSearchParamState({
+            type: SearchParamEnum.CHANGEPAGE,
+            currentPage: 1,
+            shownCurrentPage: searchParamState.displayedCards === 40 ? 2 : 1,
+          });
         }
       } catch (err) {
         console.log(err);
@@ -34,14 +100,27 @@ export default function Searchbar(props: ISearchProps) {
 
     getCardsData()
       .then((res) => res?.json())
-      .then((data: IApiResponse | undefined) => updateCardsData(data?.results));
+      .then((data: IApiResponse | undefined) => {
+        setPages(data);
+        return setCardsData(data);
+      })
+      .then((results) => updateCardsData(results));
 
     return clearState;
-  }, [searchString]); // Тут он просит передать в массив props-функции. Это вызывает бесконечный луп, я полагаю, ввиду изменения updateCardsData`a и stateClear`a на каждом вызове.Без понятия, как этот варнинг исправить;
+  }, [
+    searchParamState.searchString,
+    searchParamState.filterString,
+    searchParamState.currentPage,
+    searchParamState.displayedCards,
+    searchParamState.shownCurrentPage,
+  ]);
 
   function handleSearchInput(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.code === 'Enter') {
-      setSearchString((inputRef.current as HTMLInputElement).value);
+      dispatchSearchParamState({
+        type: SearchParamEnum.SEARCH,
+        searchString: (inputRef.current as HTMLInputElement).value,
+      });
     }
   }
 
@@ -52,7 +131,7 @@ export default function Searchbar(props: ISearchProps) {
         type="search"
         placeholder="Search"
         autoComplete="off"
-        defaultValue={localData}
+        defaultValue={localStorage.getItem('search-bar') as string}
         ref={inputRef}
         onKeyUp={handleSearchInput}
       />

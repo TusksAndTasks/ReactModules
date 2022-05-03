@@ -1,4 +1,4 @@
-import React, { Reducer, useEffect, useReducer } from 'react';
+import React, { Reducer, useEffect, useReducer, useRef } from 'react';
 import 'typeface-inter';
 import './App.css';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -8,20 +8,29 @@ import NotFound from './components/NotFound';
 import Form from './components/Form/Form';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { FormData } from './components/Form/Form';
+import FullCard from './components/Homepage/FullCard';
+import {
+  IContextList,
+  IContextSearch,
+  IContextSearchParam,
+  IListAction,
+  initialListState,
+  ISearchState,
+  ISearchAction,
+  searchStateReducer,
+  initialSearchState,
+  ISearchParamState,
+  ISearchParamAction,
+  searchParamStateReducer,
+  initialSearchParamState,
+  listStateReducer,
+} from './State-manager';
 
 export const FormDataContext = React.createContext<UseFormReturn<FormData> | string>('');
 export const ListDataContext = React.createContext<IContextList | string>('');
-
-const initialListState = [] as Array<FormData>;
-
-function listStateReducer(state: FormData[], action: IListAction) {
-  switch (action.type) {
-    case 'addCard':
-      return [...state, action.payload];
-    default:
-      return [...state];
-  }
-}
+export const SearchDataContext = React.createContext<IContextSearch | string>('');
+export const SearchParamDataContext = React.createContext<IContextSearchParam | string>('');
+export const HeaderDataContext = React.createContext<React.RefObject<HTMLElement> | string>('');
 
 function App() {
   const methods = useForm<FormData>({
@@ -36,6 +45,8 @@ function App() {
     },
   });
 
+  const headerRef = useRef(null) as React.RefObject<HTMLElement>;
+
   useEffect(() => {
     methods.reset({ name: '', date: '', location: '', confirm: '', gender: 'Male', file: '' });
   }, [methods.formState.isSubmitSuccessful]);
@@ -45,9 +56,18 @@ function App() {
     initialListState
   );
 
+  const [searchState, dispatchSearchState] = useReducer<Reducer<ISearchState, ISearchAction>>(
+    searchStateReducer,
+    initialSearchState
+  );
+
+  const [searchParamState, dispatchSearchParamState] = useReducer<
+    Reducer<ISearchParamState, ISearchParamAction>
+  >(searchParamStateReducer, initialSearchParamState);
+
   return (
     <div className="App">
-      <header className="header">
+      <header className="header" ref={headerRef}>
         <Link to={'/'} className="header-link">
           Home
         </Link>
@@ -58,30 +78,34 @@ function App() {
           Create character
         </Link>
       </header>
-      <FormDataContext.Provider value={methods}>
-        <ListDataContext.Provider
-          value={{ dispatchListState: dispatchListState, listState: listState }}
+      <HeaderDataContext.Provider value={headerRef}>
+        <SearchParamDataContext.Provider
+          value={{
+            dispatchSearchParamState: dispatchSearchParamState,
+            searchParamState: searchParamState,
+          }}
         >
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/AboutUs" element={<About />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/Forms" element={<Form />} />
-          </Routes>
-        </ListDataContext.Provider>
-      </FormDataContext.Provider>
+          <SearchDataContext.Provider
+            value={{ dispatchSearchState: dispatchSearchState, searchState: searchState }}
+          >
+            <FormDataContext.Provider value={methods}>
+              <ListDataContext.Provider
+                value={{ dispatchListState: dispatchListState, listState: listState }}
+              >
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/AboutUs" element={<About />} />
+                  <Route path="*" element={<NotFound />} />
+                  <Route path="/Forms" element={<Form />} />
+                  <Route path="/FullCard" element={<FullCard />} />
+                </Routes>
+              </ListDataContext.Provider>
+            </FormDataContext.Provider>
+          </SearchDataContext.Provider>
+        </SearchParamDataContext.Provider>
+      </HeaderDataContext.Provider>
     </div>
   );
 }
 
 export default App;
-
-interface IListAction {
-  type: 'addCard';
-  payload: FormData;
-}
-
-export interface IContextList {
-  dispatchListState: React.Dispatch<IListAction>;
-  listState: FormData[];
-}
