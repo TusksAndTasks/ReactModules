@@ -23,9 +23,9 @@ export default function Card({ item }: { item: IApiCardData }) {
         <h3 data-testid="card" className="card__name">
           {name}
         </h3>
-        <p>{gender}</p>
+        <p className={`card_gender-${gender}`}>{gender}</p>
         <p>{species}</p>
-        <p>Status: {status.toLowerCase()}</p>
+        <p className="card_status">Status: {status.toLowerCase()}</p>
       </div>
     </Link>
   );

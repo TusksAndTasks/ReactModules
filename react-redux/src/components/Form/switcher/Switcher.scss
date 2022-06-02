@@ -13,6 +13,7 @@
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
+    margin-left: 8px;
   }
 }
 
@@ -30,7 +31,7 @@
     height: 0;
 
     &:checked + .slider {
-      background-color: #FBEDC9;
+      background-color: #3719CA;
     }
     
     &:checked + .slider:before {
@@ -45,7 +46,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #DFCECE;
     transition: .4s;
     border-radius: 20px;
   
@@ -63,4 +64,9 @@
   }
 }
   
+@media (max-width: 820px) {
+  .form-box__switch{
+    width: 60%;
+  }
+}
  

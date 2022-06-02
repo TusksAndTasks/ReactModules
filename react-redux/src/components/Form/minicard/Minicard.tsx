@@ -1,7 +1,7 @@
 import { IFormData, miniCardProps } from '../Form-interfaces';
 import './Minicard.scss';
 
-export default function Minicard({ key, cardData, testid }: miniCardProps) {
+export default function Minicard({ cardData, testid }: miniCardProps) {
   const { file, name, date, location, gender } = cardData;
 
   return (

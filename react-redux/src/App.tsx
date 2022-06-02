@@ -37,14 +37,13 @@ function App() {
     <div className="App">
       <header className={headerVisible ? 'header' : 'hidden'}>
         <Link to="/" className="header-link">
-          Home
-        </Link>
-        <Link to="/AboutUs" className="header-link" data-testid="21">
-          About
+          <div className="header-logo"></div>
+          <span className="header-link-text">Home</span>
         </Link>
         <Link to="/Forms" className="header-link">
           Create character
         </Link>
+        <Link to="/Forms" className="header-link-mini"></Link>
       </header>
       <FormDataContext.Provider value={methods}>
         <Routes>
@@ -55,6 +54,11 @@ function App() {
           <Route path="/FullCard" element={<FullCard />} />
         </Routes>
       </FormDataContext.Provider>
+      <footer>
+        <Link to="/AboutUs" className="header-link" data-testid="21">
+          About
+        </Link>
+      </footer>
     </div>
   );
 }

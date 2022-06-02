@@ -25,7 +25,7 @@ export default function FormSwitcher(props: UseControllerProps<IFormData>) {
         className="switch"
         type="checkbox"
         onChange={changeCheckBoxValue}
-        checked={field.value === 'Female'}
+        defaultChecked={field.value === 'Female'}
         name={field.name}
         data-testid="switcher"
       />

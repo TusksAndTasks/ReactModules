@@ -2,9 +2,10 @@ $green: #00c341;
 $blue: #000dc3;
 $red: #c3002f;
 $darkRed: #5f0319;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 html{
-    background-color: $darkRed;
+    background-color: #040323;
 }
 
 .hidden{
@@ -26,40 +27,57 @@ html{
     left: 30%;
     top: 25%;
     width: 40%;
-    background-color: white;
+    background-color: rgb(247, 231, 231);
     display: flex;
     flex-flow: column;
     justify-content: space-between;
     align-items: center;
-    font-family: Inter;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
 
     &-header{
         height: 90px;
-        background-color: $red;
-        text-align: center;
-        position: relative;
-        padding-top: 10px;
+        background-color: #040323;
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 2;
 
         &-link{
+            display: block;
+            text-decoration: none;
+            font-family: PT Sans, sans-serif;
+            font-weight: 600;
+            font-size: 33px;
+            margin: 0 14px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             position: absolute;
             left: 10px;
-            height: 20px;
-            text-decoration: none;
-            font-family: Inter, sans-serif;
-            font-weight: 700;
-            font-size: 50px;
-            color: rgb(7, 7, 7);
+            background-color: #3719CA;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: 400ms;
+            &:hover{
+                background-color: #fff;
+                color: #040323;
+              }
         }
 
         &-text{
             display: block;
-            height: 20px;
             text-decoration: none;
-            font-family: Inter, sans-serif;
-            font-weight: 700;
-            font-size: 50px;
+            font-family: PT Sans, sans-serif;
+            font-weight: 600;
+            font-size: 33px;
+            margin: 0 14px;
             color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
     }
 
@@ -153,16 +171,18 @@ html{
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
     transition: 2s;
     font-family: Inter;
+    border-radius: 30px;
 
     >img{
         width: 320px;
         height: 172px;
+        border-radius: 30px;
     }
 
     &__name{
         margin: 10px 0;
         margin-bottom: 5px;
-        font-size: 24px;
+        font-size: 20px;
         text-align: center;
         text-decoration: underline;
         margin-bottom: 20px;
@@ -173,11 +193,31 @@ html{
         margin: 5px 0;
     }
 
+    &_gender-Male,
+    &_gender-Female,
+    &_gender-unknown{
+        padding: 10px 20px;
+        border-radius: 30px;
+    }
+
+    &_gender-Male{
+        background-color: #b7d4e7;
+    }
+
+    &_gender-Female{
+        background-color: #DDB7E7;
+    }
+
+    &_gender-unknown{
+        background-color:#b7e7c7
+    }
+
     &:hover{
         cursor: pointer;
         width: 350px;
         height: 400px;
-        color: white;
+        color: #ffffff;
+        text-shadow: #000 0 0 10px;
     }
 
     &_alive:hover{
@@ -268,10 +308,59 @@ html{
     display: flex;
     flex-flow: column;
     justify-content: space-around;  
+    align-items: center;
 
     &-filter{
         font-size: 14px;
         font-weight: 500;
+        display: inline-block;
+	    overflow: hidden;
+       
+        &-button{
+            display: inline-block;
+            
+
+            &:first-child>label{
+                border-radius: 20px 0 0 20px;
+                box-shadow: inset 3px 5px 10px rgba(180, 167, 167, 0.342);
+            }
+    
+            &:last-child>label{
+                border-radius: 0 20px 20px 0;
+                box-shadow: inset -3px 5px 10px rgba(180, 167, 167, 0.342);
+            }
+
+            &>input[type=radio]{
+                display: none;
+                &:checked + label{
+                    background: #fff;
+                    color:#040323;
+                    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5);
+                }
+                &:checked + .params-filter-button:first-child>label{
+                    box-shadow: inset 3px 5px 10px rgba(0, 0, 0, 0.5);
+                }
+                &:checked + .params-filter-button:last-child>label{
+                    box-shadow: inset -3px 5px 10px rgba(0, 0, 0, 0.5);
+                }
+            }
+
+            &>label{
+                display: inline-block;
+	            cursor: pointer;
+	            padding: 0px 15px;
+	            line-height: 34px;
+	            border: 1px solid #000;
+	            border: none;
+	            user-select: none;
+                background-color: #3719CA;
+                box-shadow: inset 0 5px 10px rgba(180, 167, 167, 0.342);
+                color: white;
+                &:hover{
+                    color: #666;
+                }
+            }
+        }
     }
 
     &-pagination{
@@ -283,9 +372,14 @@ html{
 
         >select{
             margin: 5px 30px;
-            width: 40%;
-            background-color: $red;
-            color: white;
+            width: 45%;
+            box-sizing: border-box;
+            border: 1px solid #3C1C78;
+            background-color: #040344;
+            color: #F9D9F6;
+            padding: 5px 10px;
+            border-radius: 10px 10px 0 0;
+            text-align: start;
         }
 
         >div{
@@ -293,6 +387,84 @@ html{
             font-size: 14px;
             font-weight: 500;
             width: 20%;
+            text-align: center;
         }
+    }
+  }
+
+  footer{
+      background-color: #040323;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+
+      >.header-link{
+          margin: 0;
+
+          &:first-of-type{
+            width: auto;
+          }
+      }
+  }
+
+  @media (max-width: 1090px){
+    .fullCard{
+        &-header{
+            justify-content: flex-end;
+            &-text{
+            font-size: 25px;
+            }
+        }
+  }
+}
+  @media (max-width: 820px){
+      .params-pagination{
+          flex-flow: column;
+          >select{
+              width: 90%;
+          }
+      }
+
+      .card{
+          width: 256px;
+          height: 280px;
+          
+         &:hover{
+          width: 280px;
+          height: 320px;
+         }
+
+          >img{
+              width: 256px;
+              height: 141px;
+          }
+
+
+          &__name{
+              margin: 2px;
+              font-size: 18px;
+          }
+      }
+
+      .fullCard{
+          width: 90%;
+          left: 5%;
+
+          &-header{
+              justify-content: flex-end;
+          }
+      }
+
+      .fullCard-header-text{
+          font-size: 20px;
+          width: 270px;
+      }
+
+  }
+
+  @media(max-width: 480px){
+    .fullCard-header-text{
+        font-size: 14px;
+        width: 200px;
     }
   }

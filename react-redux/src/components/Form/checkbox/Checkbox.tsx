@@ -7,7 +7,7 @@ export default function FormCheckbox(props: UseControllerProps<IFormData>) {
   const { field } = useController(props);
   const { clearErrors, getValues } = useFormContext();
 
-  const [checkBoxValue, setCheckBoxValue] = useState('');
+  const [checkBoxValue, setCheckBoxValue] = useState(field.value);
 
   function changeCheckBoxValue() {
     const value = checkBoxValue ? '' : 'Checked';
@@ -20,14 +20,21 @@ export default function FormCheckbox(props: UseControllerProps<IFormData>) {
   }, [getValues(field.name)]);
 
   return (
-    <input
-      type="checkbox"
-      onChange={changeCheckBoxValue}
-      name={field.name}
-      value={checkBoxValue}
-      checked={field.value.length != 0}
-      className="form-box__open-input"
-      data-testid="open-input"
-    />
+    <>
+      <input
+        type="checkbox"
+        onClick={changeCheckBoxValue}
+        name={field.name}
+        value={checkBoxValue}
+        defaultChecked={!!checkBoxValue}
+        className="form-box__open-input"
+        data-testid="open-input"
+      />
+      <label htmlFor="openProject" className="form-box__open-custom">
+        <svg viewBox="0, 0, 50, 50">
+          <path d="M5 30 L 20 45 L 45 5" />
+        </svg>
+      </label>
+    </>
   );
 }

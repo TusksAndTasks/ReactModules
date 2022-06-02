@@ -32,20 +32,21 @@ export default function SearchParam({ nameArr }: { nameArr: string[] }) {
   }
 
   const filterInputs = nameArr.map((name) => (
-    <label key={`label${name}`} htmlFor={`filter${name}`}>
-      {`Character status: ${name}`}
+    <div key={name} className="params-filter-button">
       <input
         type="radio"
         name="filter"
         id={`filter${name}`}
-        key={name}
         value={name.toLowerCase()}
         onChange={() => {
           dispatch(setFilter(name.toLowerCase()));
         }}
         defaultChecked={filterString === name.toLowerCase()}
       />
-    </label>
+      <label key={`label${name}`} htmlFor={`filter${name}`}>
+        {name}
+      </label>
+    </div>
   ));
 
   return (

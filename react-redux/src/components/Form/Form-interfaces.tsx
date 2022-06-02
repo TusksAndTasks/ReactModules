@@ -37,7 +37,6 @@ export interface ISelectProps {
 }
 
 export interface miniCardProps {
-  key: string;
   cardData: IFormData;
   testid: string;
 }

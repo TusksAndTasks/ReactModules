@@ -16,10 +16,11 @@ $darkRed: #5f0319;
       all: unset;
       width: 107%;
       height: 2rem;
-      border: 2px solid $darkRed;
+      border: 2px solid #040344;
       text-align: center;
       color: white;
-      background-color: $red;
+      background-color: #4023C8;
+      border-radius: 20px;
     }
   }
 
@@ -66,3 +67,9 @@ $darkRed: #5f0319;
     border-color: #5f0319;
     background-color: #ffe2e9;
   }
+
+  @media (max-width: 820px) {
+    .form-box__file{
+      width: 55%;
+    }
+  }  
