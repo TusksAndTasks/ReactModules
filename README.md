@@ -1,6 +1,6 @@
 # Code exported from tusksandtasks-REACT2022Q1 - Private repository for @tusksandtasks 
 
-# Последняя версия деплоя: https://react-redux-tlc.herokuapp.com/
+# Последняя версия деплоя: https://ram-react.herokuapp.com/
 
 ## React-Components ТЗ:
 
